@@ -17,7 +17,6 @@ function App() {
 
   const API_KEY = import.meta.env.VITE_WEATHER_KEY;
 
-
   const fetchWeather = (city, save = false) => {
     axios
       .get(`/weather?q=${city}&units=metric&appid=${API_KEY}`)
@@ -34,7 +33,6 @@ function App() {
         alert("Kota tidak ditemukan");
       });
   };
-
 
   useEffect(() => {
     const savedWeather = localStorage.getItem("weatherData");
@@ -104,7 +102,6 @@ function App() {
     >
       <div className="w-full max-w-sm rounded-[40px] p-6 text-white backdrop-blur-2xl bg-white/20 shadow-2xl">
 
-
         <div className="flex items-center gap-2 bg-white/20 rounded-xl px-3 py-2 mb-6">
           <Search size={18} />
           <input
@@ -117,16 +114,13 @@ function App() {
           />
         </div>
 
-
         <h2 className="text-center text-lg font-semibold">
           {data?.name || location}, {country}
         </h2>
 
-
         <div className="flex justify-center my-8">
           <WeatherIcon />
         </div>
-
 
         <div className="text-center">
           <h1 className="text-7xl font-bold">
@@ -137,15 +131,14 @@ function App() {
           </p>
         </div>
 
-        {/* SUN */}
         <div className="mt-6 grid grid-cols-2 gap-4 text-center">
           <div className="bg-white/20 rounded-xl p-3">
-          <p>Sunrise</p>
-            <p> {formatTime(sunrise)}</p>
+            <p>Sunrise</p>
+            <p>{formatTime(sunrise)}</p>
           </div>
           <div className="bg-white/20 rounded-xl p-3">
-          <p>Sunset</p>
-            <p> {formatTime(sunset)}</p>
+            <p>Sunset</p>
+            <p>{formatTime(sunset)}</p>
           </div>
         </div>
 
