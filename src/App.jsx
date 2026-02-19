@@ -14,11 +14,10 @@ function App() {
   const [data, setData] = useState(null);
   const [location, setLocation] = useState("");
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(true);
 
   const API_KEY = import.meta.env.VITE_WEATHER_KEY;
 
- 
+  // FETCH WEATHER
   const fetchWeather = (city, save = false) => {
     axios
       .get(`/weather?q=${city}&units=metric&appid=${API_KEY}`)
@@ -33,13 +32,10 @@ function App() {
       })
       .catch(() => {
         alert("Kota tidak ditemukan");
-      })
-      .finally(() => {
-        setLoading(false);
       });
   };
 
-
+  // LOAD AWAL
   useEffect(() => {
     const savedWeather = localStorage.getItem("weatherData");
     const savedCity = localStorage.getItem("lastCity");
@@ -47,16 +43,14 @@ function App() {
     if (savedWeather && savedCity) {
       setData(JSON.parse(savedWeather));
       setLocation(savedCity);
-      setLoading(false);
     } else {
       fetchWeather("Jakarta");
     }
   }, []);
 
-
+  // SEARCH
   const handleSearch = (e) => {
     if (e.key === "Enter" && input.trim()) {
-      setLoading(true);
       fetchWeather(input, true);
       setInput("");
     }
@@ -78,16 +72,12 @@ function App() {
     });
   };
 
-
   const WeatherIcon = () => {
-    const animation =
-      weatherMain === "Clouds" ? "animate-cloud" : "";
-
     switch (weatherMain) {
       case "Rain":
-        return <CloudRain size={160} className={animation} />;
+        return <CloudRain size={160} />;
       case "Clouds":
-        return <Cloud size={160} className={animation} />;
+        return <Cloud size={160} />;
       case "Thunderstorm":
         return <CloudLightning size={160} />;
       default:
@@ -95,7 +85,6 @@ function App() {
     }
   };
 
-  
   const bgStyle = () => {
     switch (weatherMain) {
       case "Rain":
@@ -109,25 +98,14 @@ function App() {
     }
   };
 
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-sky-400 text-white text-xl">
-        Loading Weather...
-      </div>
-    );
-  }
-
- 
   return (
     <div
       className={`min-h-screen flex items-center justify-center 
-      bg-gradient-to-br ${bgStyle()} 
-      transition-all duration-700 p-6`}
+      bg-gradient-to-br ${bgStyle()} p-6`}
     >
       <div className="w-full max-w-sm rounded-[40px] p-6 text-white backdrop-blur-2xl bg-white/20 shadow-2xl">
 
-  
+        {/* SEARCH */}
         <div className="flex items-center gap-2 bg-white/20 rounded-xl px-3 py-2 mb-6">
           <Search size={18} />
           <input
@@ -140,39 +118,33 @@ function App() {
           />
         </div>
 
-        
+        {/* CITY */}
         <h2 className="text-center text-lg font-semibold">
-          {data?.name}, {country}
+          {data?.name || location}, {country}
         </h2>
 
- 
+        {/* ICON */}
         <div className="flex justify-center my-8">
           <WeatherIcon />
         </div>
 
- 
+        {/* TEMP */}
         <div className="text-center">
           <h1 className="text-7xl font-bold">
             {data?.main?.temp?.toFixed() ?? "--"}°
           </h1>
           <p className="opacity-80 mt-2">
-            {weatherMain || "Loading"}
+            {weatherMain || "--"}
           </p>
         </div>
 
-   
+        {/* SUN */}
         <div className="mt-6 grid grid-cols-2 gap-4 text-center">
           <div className="bg-white/20 rounded-xl p-3">
-            <p className="text-sm opacity-80">Sunrise</p>
-            <p className="text-lg font-semibold">
-               {formatTime(sunrise)}
-            </p>
+          {formatTime(sunrise)}
           </div>
-
           <div className="bg-white/20 rounded-xl p-3">
-            <p className="text-sm opacity-80">Sunset</p>
-            <p className="text-lg font-semibold">{formatTime(sunset)}
-            </p>
+            {formatTime(sunset)}
           </div>
         </div>
 
