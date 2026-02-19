@@ -17,7 +17,7 @@ function App() {
 
   const API_KEY = import.meta.env.VITE_WEATHER_KEY;
 
-  // FETCH WEATHER
+
   const fetchWeather = (city, save = false) => {
     axios
       .get(`/weather?q=${city}&units=metric&appid=${API_KEY}`)
@@ -35,7 +35,7 @@ function App() {
       });
   };
 
-  // LOAD AWAL
+
   useEffect(() => {
     const savedWeather = localStorage.getItem("weatherData");
     const savedCity = localStorage.getItem("lastCity");
@@ -48,7 +48,6 @@ function App() {
     }
   }, []);
 
-  // SEARCH
   const handleSearch = (e) => {
     if (e.key === "Enter" && input.trim()) {
       fetchWeather(input, true);
@@ -105,7 +104,7 @@ function App() {
     >
       <div className="w-full max-w-sm rounded-[40px] p-6 text-white backdrop-blur-2xl bg-white/20 shadow-2xl">
 
-        {/* SEARCH */}
+
         <div className="flex items-center gap-2 bg-white/20 rounded-xl px-3 py-2 mb-6">
           <Search size={18} />
           <input
@@ -118,17 +117,17 @@ function App() {
           />
         </div>
 
-        {/* CITY */}
+
         <h2 className="text-center text-lg font-semibold">
           {data?.name || location}, {country}
         </h2>
 
-        {/* ICON */}
+
         <div className="flex justify-center my-8">
           <WeatherIcon />
         </div>
 
-        {/* TEMP */}
+
         <div className="text-center">
           <h1 className="text-7xl font-bold">
             {data?.main?.temp?.toFixed() ?? "--"}°
@@ -141,10 +140,12 @@ function App() {
         {/* SUN */}
         <div className="mt-6 grid grid-cols-2 gap-4 text-center">
           <div className="bg-white/20 rounded-xl p-3">
-          {formatTime(sunrise)}
+          <p>Sunrise</p>
+            <p> {formatTime(sunrise)}</p>
           </div>
           <div className="bg-white/20 rounded-xl p-3">
-            {formatTime(sunset)}
+          <p>Sunset</p>
+            <p> {formatTime(sunset)}</p>
           </div>
         </div>
 
